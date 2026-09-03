@@ -1,0 +1,159 @@
+@page
+@model PortfolioSite.Pages.ExperienceModel
+@{
+    ViewData["Title"] = "Experience";
+}
+
+<div class="container mt-5">
+
+    <h2 class="mb-3">Professional Experience</h2>
+
+    <p class="text-muted mb-5">
+        A detailed overview of my professional journey, focusing on DevOps, cloud infrastructure,
+        and automation practices.
+    </p>
+
+    <div class="row g-4">
+
+        <!-- CURRENT ROLE -->
+        <div class="col-md-6">
+            <div class="card h-100 skill-card shadow-sm">
+                <div class="card-body">
+
+                    <h5>Azure DevOps Engineer</h5>
+                    <p class="text-muted mb-1">
+                        C2S Technologies PVT LTD | Hyderabad
+                    </p>
+                    <small class="text-secondary">2024 – Present</small>
+
+                    <hr />
+
+                    <h6>Key Responsibilities</h6>
+                    <ul>
+                        <li>Designed and automated Azure infrastructure provisioning using Terraform and ARM templates.</li>
+                        <li>Built and optimized CI/CD pipelines in Azure DevOps, improving deployment speed by 40%.</li>
+                        <li>Managed end-to-end Azure DevOps services including Repos, Boards, Test Plans, and Artifacts.</li>
+                        <li>Developed and maintained ADO/GitHub pipelines, reducing build failures and improving pipeline stability.</li>
+                        <li>Implemented efficient artifact management strategies for secure and traceable releases.</li>
+                        <li>Enhanced infrastructure automation to ensure scalability, reliability, and maintainability.</li>
+                        <li>Evaluated and integrated modern DevOps tools to improve team productivity and delivery efficiency.</li> 
+                    </ul>
+
+                    <h6>Key Achievements</h6>
+                    <ul>
+                        <li>Improved deployment speed by 40% through CI/CD optimization.</li>
+                        <li>Automated infrastructure provisioning using Terraform & ARM.</li>
+                        <li>Reduced build failures with Github/Azure DevOps pipeline improvements.</li>
+                        <li>Strengthened artifact management and release traceability.</li>
+                        <li>Implemented Rollback strategies to minimize downtime during deployments.</li>
+                    </ul>
+
+                    <h6>Technologies Used</h6>
+                    <div>
+                        <span class="badge bg-primary">Azure</span>
+                        <span class="badge bg-primary">GitHub</span>
+                        <span class="badge bg-dark">Terraform</span>
+                        <span class="badge bg-success">CI/CD</span>
+                        <span class="badge bg-info text-dark">Monitoring</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- PREVIOUS ROLE -->
+        <div class="col-md-6">
+            <div class="card h-100 skill-card shadow-sm">
+                <div class="card-body">
+
+                    <h5>Software Automation Engineer Intern</h5>
+                    <p class="text-muted mb-1">
+                        NextBrain Technologies | Bangalore
+                    </p>
+                    <small class="text-secondary">2023 – 2024</small>
+
+                    <hr />
+
+                    <h6>Key Responsibilities</h6>
+                    <ul>
+                        <li>Developed face recognition systems using DeepFace and ResNetV2 models.</li>
+                        <li>Implemented AI solutions in Python using OpenCV for face detection, encoding, and comparison.</li>
+                        <li>Designed and managed SQL databases for storing and processing model data.</li>
+                        <li>Utilized Azure compute resources to optimize model performance and data processing.</li>
+                        <li>Utilized Azure compute resources to optimize model performance and data processing.</li>
+                    </ul>
+
+                    <h6>Key Achievements</h6>
+                    <ul>
+                        <li>Built and deployed AI-based face recognition systems using deep learning models.</li>
+                        <li>Improved model performance using Azure-based processing and optimization techniques.</li>
+                        <li>Automated dataset collection and model update workflows, reducing manual effort by 50%.</li>
+                        <li>Enhanced system accuracy and performance through optimized face encoding techniques.</li>
+                    </ul>
+
+                    <h6>Technologies Used</h6>
+                    <div>
+                        <span class="badge bg-warning text-dark">Python</span>
+                        <span class="badge bg-success">Deep Learning Models</span>
+                        <span class="badge bg-info text-dark">Automation</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- THIRD ROLE -->
+        <div class="col-md-6">
+            <div class="card h-100 skill-card shadow-sm">
+                <div class="card-body">
+
+                    <h5>Python Developer Intern</h5>
+                    <p class="text-muted mb-1">
+                        Shiash Info Tech Solutions | Chennai
+                    </p>
+                    <small class="text-secondary">2023</small>
+
+                    <hr />
+
+                    <h6>Key Responsibilities</h6>
+                    <ul>
+                        <li>Developed basic Python scripts for automation and data handling tasks.</li>
+                        <li>Gained practical experience in HTML, CSS, and JavaScript for web development.</li>
+                        <li>Worked with SQL queries for data retrieval and database operations.</li>
+                        <li>Assisted in debugging and improving application performance.</li>
+                        <li>Supported backend and frontend development activities in real-time projects.</li>
+                    </ul>
+
+                    <h6>Key Achievements</h6>
+                    <ul>
+                        <li>Built foundational knowledge in Python, web development, and databases.</li>
+                        <li>Developed automation scripts to handle repetitive tasks efficiently.</li>
+                        <li>Strengthened problem-solving skills through debugging and optimization tasks.</li>
+                        <li>Gained hands-on experience working in a real development environment and collaborating with a team.</li>
+                    </ul>
+
+                    <h6>Technologies Used</h6>
+                    <div>
+                        <span class="badge bg-warning text-dark">Python</span>
+                        <span class="badge bg-dark">HTML</span>
+                        <span class="badge bg-success">CSS</span>
+                        <span class="badge bg-info text-dark">SQL</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- BACK BUTTON -->
+    <div class="mt-5 text-center">
+        <a asp-page="/Index" class="btn btn-outline-dark">
+            Back to Home
+        </a>
+    </div>
+
+</div>

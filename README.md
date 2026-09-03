@@ -1,2 +1,7 @@
-# DevOps_Portfolio
-Portfolio is building by dotnet version 9
+# C2S_DevOps_Team_Portfolios
+
+Team members: 
+1. Pasupathikumar
+1. Mohammed
+
+http://localhost:5074

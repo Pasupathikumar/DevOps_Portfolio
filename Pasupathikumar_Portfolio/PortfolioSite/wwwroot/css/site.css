@@ -1,0 +1,380 @@
+/* ========================================
+   ROOT VARIABLES (THEME CONTROL)
+======================================== */
+:root {
+    --primary: #343a40;
+    --secondary: #6c757d;
+    --bg-light: #f8f9fb;
+    --bg-white: #ffffff;
+    --border-light: #e5e7eb;
+    --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   GLOBAL STYLES
+======================================== */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background: linear-gradient(120deg, #f8f9fb, #eef2f7);
+    color: #212529;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Remove default link underline */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* ========================================
+   TYPOGRAPHY
+======================================== */
+h1, h2, h3, h4, h5 {
+    font-weight: 600;
+}
+
+h2 {
+    border-left: 4px solid var(--primary);
+    padding-left: 12px;
+    margin-bottom: 20px;
+}
+
+/* ========================================
+   NAVBAR
+======================================== */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* ========================================
+   BUTTONS
+======================================== */
+.btn {
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.btn-dark {
+    background-color: var(--primary);
+    border: none;
+}
+
+.btn-dark:hover {
+    background-color: #23272b;
+    transform: translateY(-2px);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+/* ========================================
+   SECTIONS
+======================================== */
+section {
+    background: var(--bg-white);
+    padding: 30px;
+    border-radius: 14px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   PROFILE IMAGE
+======================================== */
+.profile-image {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    object-position: center 10%;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   CARDS
+======================================== */
+.skill-card,
+.project-card {
+    border: none;
+    border-radius: 14px;
+    background: var(--bg-white);
+    transition: all 0.25s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.skill-card:hover,
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   EXPERIENCE GRID
+======================================== */
+.experience-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.experience-col {
+    flex: 1 1 calc(33.33% - 1rem);
+    min-width: 260px;
+    display: flex;
+}
+
+.experience-col .skill-card {
+    flex: 1;
+}
+
+/* ========================================
+   TIMELINE
+======================================== */
+.timeline {
+    position: relative;
+    margin: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: var(--border-light);
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    position: relative;
+    width: 50%;
+    padding: 1rem;
+}
+
+.timeline-item.left {
+    left: 0;
+    text-align: right;
+}
+
+.timeline-item.right {
+    left: 50%;
+}
+
+.timeline-content {
+    border-radius: 12px;
+}
+
+/* Timeline dots */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-item.left::before {
+    right: -6px;
+}
+
+.timeline-item.right::before {
+    left: -6px;
+}
+
+/* ========================================
+   PROJECT SECTION
+======================================== */
+.project-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding: 10px;
+}
+
+.project-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll Buttons */
+.scroll-btn {
+    position: absolute;
+    top: 40%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1;
+    border-radius: 6px;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.scroll-btn:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.scroll-btn.left {
+    left: -10px;
+}
+
+.scroll-btn.right {
+    right: -10px;
+}
+
+/* Project card alignment */
+.project-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.project-card h5 {
+    font-weight: 600;
+}
+
+.project-card p {
+    font-size: 14px;
+    max-width: 260px;
+}
+
+.project-card .badge {
+    margin: 2px;
+}
+
+/* ========================================
+   FOOTER
+======================================== */
+.footer-section {
+    background: var(--bg-white);
+    padding: 50px 0;
+    border-top: 1px solid var(--border-light);
+    text-align: center;
+}
+
+.footer-section h3 {
+    font-weight: 600;
+}
+
+.footer-section .btn {
+    min-width: 130px;
+}
+
+.footer-section .btn:hover {
+    transform: translateY(-3px);
+}
+
+/* ========================================
+   SCROLL TO TOP BUTTON
+======================================== */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 50%;
+    display: none;
+    cursor: pointer;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========================================
+   FORM FIXES
+======================================== */
+.form-floating > .form-control::placeholder {
+    color: var(--secondary);
+    text-align: end;
+}
+
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 768px) {
+
+    /* Timeline becomes single column */
+    .timeline::before {
+        left: 10px;
+    }
+
+    .timeline-item {
+        width: 100%;
+        padding-left: 2rem;
+        text-align: left;
+    }
+
+    .timeline-item.right {
+        left: 0;
+    }
+
+    .timeline-item::before {
+        left: 4px;
+    }
+
+    /* Experience full width */
+    .experience-col {
+        flex: 1 1 100%;
+    }
+}
+
+.skill-card img {
+    filter: grayscale(100%);
+    transition: 0.3s;
+}
+
+.skill-card:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}

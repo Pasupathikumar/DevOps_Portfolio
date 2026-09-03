@@ -1,0 +1,121 @@
+name: PK Portfolio Infra Deployment
+
+on:
+  pull_request:
+    branches: [develop]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  TF_CONTAINER_REGISTRY_NAME: pkcrportfoliowu201
+  CONTAINER_NAME: mspk-portfolio-container
+
+
+jobs:
+  # -------------------- PLAN JOB --------------------
+  pk_infra_plan:
+    name: PK Portfolio Infra Plan
+    runs-on: ubuntu-latest
+    environment: Pasupathikumar
+    defaults:
+      run:
+        working-directory: ./Pasupathikumar_Portfolio/Infra_codes
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: latest
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR Login
+        run: az acr login -n ${{ env.TF_CONTAINER_REGISTRY_NAME }}
+        continue-on-error: true
+
+      - name: Fetch Latest Container Tag
+        id: fetch_tag
+        run: |
+          if az acr repository show --name ${{ env.TF_CONTAINER_REGISTRY_NAME }} --repository ${{ env.CONTAINER_NAME }} &>/dev/null; then
+            latest_tag=$(az acr repository show-tags \
+              --name ${{ env.TF_CONTAINER_REGISTRY_NAME }} \
+              --repository ${{ env.CONTAINER_NAME }} \
+              --orderby time_desc --top 1 --query "[0]" -o tsv 2>/dev/null || echo "")
+          else
+            echo "ACR repository not found or empty - using quickstart image"
+            latest_tag=""
+          fi
+          echo "latest_tag_name=$latest_tag" >> $GITHUB_ENV
+          echo "Image tag: '${latest_tag:-<empty>}'"
+
+      - name: Terraform Init
+        run: terraform init --backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}" --backend-config="container_name=${{ secrets.TF_STATE_CONTAINER_NAME }}" --backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP_NAME }}" --backend-config="key=pasupathikumar-portfolio-terraform.tfstate" --backend-config="use_azuread_auth=true"
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan --out=plan.tfplan --var-file=config_dev.tfvars --var "sql_server_admin_password=${{ secrets.SQL_SERVER_ADMIN_PASSWORD }}" --var "container_app_image_tag=${{ env.latest_tag_name }}"
+
+      - name: Show Plan
+        run: terraform show -no-color plan.tfplan
+
+      - name: Upload Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pk-infra-plan
+          path: ./Pasupathikumar_Portfolio/Infra_codes/plan.tfplan
+          retention-days: 7
+
+  # -------------------- APPLY JOB --------------------
+  pk_infra_apply:
+    name: PK Portfolio Infra Apply
+    runs-on: ubuntu-latest
+    environment: Pasupathikumar
+    needs: pk_infra_plan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/pasupathi_portfolio'
+    defaults:
+      run:
+        working-directory: ./Pasupathikumar_Portfolio/Infra_codes
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: latest
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Download TF Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pk-infra-plan
+          path: ./Pasupathikumar_Portfolio/Infra_codes
+
+
+      - name: Terraform Init
+        run: terraform init --backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}" --backend-config="container_name=${{ secrets.TF_STATE_CONTAINER_NAME }}" --backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP_NAME }}" --backend-config="key=pasupathikumar-portfolio-terraform.tfstate" --backend-config="use_azuread_auth=true"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve ./plan.tfplan
+        working-directory: ./Pasupathikumar_Portfolio/Infra_codes

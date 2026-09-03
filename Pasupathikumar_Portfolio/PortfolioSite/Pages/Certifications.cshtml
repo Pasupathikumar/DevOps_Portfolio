@@ -1,0 +1,117 @@
+@page
+@model PortfolioSite.Pages.CertificationsModel
+@{
+    ViewData["Title"] = "Certifications";
+}
+
+<div class="container mt-5">
+
+    <h2 class="mb-3 text-center">Certifications</h2>
+
+    <p class="text-muted text-center mb-5">
+        Certifications that validate my expertise in cloud technologies,
+        DevOps practices, and infrastructure automation.
+    </p>
+
+    <div class="row g-4 justify-content-center">
+
+        <!-- AZURE FUNDAMENTALS -->
+        <div class="col-md-4">
+            <div class="card skill-card text-center h-100 shadow-sm p-3">
+
+                <img src="~/images/az_900_logo.png"
+                     alt="Azure Certification"
+                     class="mx-auto mb-3"
+                     style="width:70px;">
+
+                <div class="card-body">
+
+                    <h5>Microsoft Azure Fundamentals</h5>
+
+                    <p class="text-muted">
+                        Demonstrates foundational knowledge of cloud concepts,
+                        Azure services, pricing, and governance.
+                    </p>
+
+                    <span class="badge bg-primary mb-2">Microsoft</span>
+
+                    <div>
+                        <a href="#" target="_blank"
+                           class="btn btn-outline-dark btn-sm">
+                            Verify Certificate
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- TERRAFORM ASSOCIATE -->
+        <div class="col-md-4">
+            <div class="card skill-card text-center h-100 shadow-sm p-3">
+
+
+                <div class="card-body">
+
+                    <h5>Terraform Associate</h5>
+
+                    <p class="text-muted">
+                        Validates skills in Infrastructure as Code, Terraform workflows,
+                        and cloud provisioning automation.
+                    </p>
+
+                    <span class="badge bg-dark mb-2">HashiCorp</span>
+                    <br />
+                    <small class="text-secondary">In Progress</small>
+
+                    <div class="mt-2">
+                        <a href="#" class="btn btn-outline-dark btn-sm disabled">
+                            In Progress
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- AZURE DEVOPS ENGINEER -->
+        <div class="col-md-4">
+            <div class="card skill-card text-center h-100 shadow-sm p-3">
+
+
+                <div class="card-body">
+
+                    <h5>Azure DevOps Engineer</h5>
+
+                    <p class="text-muted">
+                        Focuses on CI/CD pipelines, automation, monitoring,
+                        and DevOps best practices in Azure.
+                    </p>
+
+                    <span class="badge bg-primary mb-2">Microsoft</span>
+                    <br />
+                    <small class="text-secondary">In Progress</small>
+
+                    <div class="mt-2">
+                        <a href="#" class="btn btn-outline-dark btn-sm disabled">
+                            In Progress
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- BACK BUTTON -->
+    <div class="mt-5 text-center">
+        <a asp-page="/Index" class="btn btn-outline-dark">
+            Back to Home
+        </a>
+    </div>
+
+</div>

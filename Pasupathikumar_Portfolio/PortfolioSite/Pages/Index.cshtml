@@ -1,0 +1,311 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container mt-5">
+
+    <!-- HERO SECTION -->
+    <section class="mb-5 fade-in">
+        <div class="row align-items-center">
+
+            <div class="col-md-4 text-center">
+                <img src="~/images/Photo.jpg" class="profile-image" alt="Profile Photo">
+            </div>
+
+            <div class="col-md-8">
+
+                <h1 class="mb-2">Hi, I'm Pasupathikumar Selvaraj 👋</h1>
+
+                <h5 class="text-muted mb-3">
+                    Azure DevOps Engineer
+                </h5>
+
+                <p>
+                    Azure DevOps Engineer with 2+ years of experience in automating Azure infrastructure, building CI/CD pipelines, and implementing Infrastructure as Code using Terraform and ARM templates. Skilled in Docker, Kubernetes, and cloud-native solutions, with prior experience in AI and automation workflows. Focused on delivering scalable, reliable, and efficient systems.
+                </p>
+
+                <!-- TECH STACK -->
+                <div class="mb-3">
+                    <span class="badge bg-primary">Azure</span>
+                    <span class="badge bg-dark">Terraform</span>
+                    <span class="badge bg-success">CI/CD</span>
+                    <span class="badge bg-info text-dark">Docker</span>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="mt-3">
+                    <a asp-page="/Projects" class="btn btn-dark me-2">
+                        <i class="bi bi-folder"></i> Projects
+                    </a>
+
+                    <a asp-page="/Contact" class="btn btn-outline-dark me-2">
+                        <i class="bi bi-envelope"></i> Contact
+                    </a>
+
+                    <a href="~/files/Pasupathikumar-ADO-Resume.docx"
+                       class="btn btn-outline-dark"
+                       download>
+                        <i class="bi bi-download"></i> Resume
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SKILLS -->
+    <section class="mb-5 fade-in">
+        <h2>Skills</h2>
+
+        <div class="row g-3 text-center">
+
+            <div class="col-md-3">
+                <div class="card skill-card">
+                    <div class="card-body">
+                        <i class="bi bi-cloud"></i><br>Azure
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card skill-card">
+                    <div class="card-body">
+                        <i class="bi bi-diagram-3"></i><br>Terraform
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card skill-card">
+                    <div class="card-body">
+                        <i class="bi bi-box"></i><br>Docker
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card skill-card">
+                    <div class="card-body">
+                        <i class="bi bi-git"></i><br>CI/CD
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            <a asp-page="/Skills" class="btn btn-outline-dark">View All</a>
+        </div>
+    </section>
+
+
+    <!-- EXPERIENCE -->
+    <section class="mb-5 fade-in">
+        <h2>Experience</h2>
+
+        <div class="timeline">
+
+            <!-- LEFT -->
+            <div class="timeline-item left">
+                <div class="timeline-content card skill-card">
+                    <div class="card-body">
+                        <h5>Azure DevOps Engineer</h5>
+                        <small>C2S Technologies | Hyderabad | 2024 - Present</small>
+                        <p class="mt-2">
+                        <ul>
+                                <li>Managed 5+ CI/CD pipelines across multiple environments.</li>
+                                <li>Reduced deployment time by 40% and manual effort by 60%.</li>
+                            </ul>
+                        </p>
+                        <div>
+                            <span class="badge bg-primary">Azure</span>
+                            <span class="badge bg-success">CI/CD</span>
+                            <span class="badge bg-info text-dark">Terraform</span>
+                            <span class="badge bg-info text-dark">GitHub</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="timeline-item right">
+                <div class="timeline-content card skill-card">
+                    <div class="card-body">
+                        <h5>Software Automation Engineer Intern</h5>
+                        <small>NextBrain | Bangalore | 2023 - 2024</small>
+                        <p class="mt-2">
+                            <ul>
+                                <li>Built face recognition systems using Deep Face and ResNetV2 models.</li>
+                                <li>Implemented AI models in Python with OpenCV for face encoding and comparison.</li>
+                                <li>Designed and maintained project databases using SQL.</li>
+                                <li>Leveraged Azure clusters to optimise model performance and data processing.</li>
+                                <li>Automated AI model updates and streamlined dataset collection workflows.</li>
+                            </ul>
+                        </p>
+                        <div>
+                            <span class="badge bg-warning text-dark">Python</span>
+                            <span class="badge bg-success">AI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LEFT -->
+            <div class="timeline-item left">
+                <div class="timeline-content card skill-card">
+                    <div class="card-body">
+                        <h5>Python Developer Intern</h5>
+                        <small>Shiash Info Tech | Chennai | 2023</small>
+                        <p class="mt-2">
+                            <ul>
+                                <li>Gained hands-on experience in Python scripting, web technologies, and database queries.</li>  
+                                <li>Worked on basic automation scripts and supported frontend and backend development tasks.</li>  
+                            </ul>
+                        </p>
+                        <div>
+                            <span class="badge bg-warning text-dark">Python</span>
+                            <span class="badge bg-secondary">Scripting</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            <a asp-page="/Experience" class="btn btn-outline-dark">Read More</a>
+        </div>
+    </section>
+
+
+    <!-- EDUCATION -->
+    <section class="mb-5 fade-in">
+        <h2>Education</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card skill-card text-center">
+                    <div class="card-body">
+                        <h5>Bachelor of Technology (B.Tech)</h5>
+                        <p class="text-muted mb-1">Information Technology</p>
+                        <p>Salem, Tamil Nadu</p>
+                        <small class="text-muted">2020 – 2023</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+    <section class="mb-5 fade-in">
+        <h2>Projects</h2>
+
+        <div id="projectCarousel" class="carousel slide">
+
+            <div class="carousel-inner">
+
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center">
+                        <div class="card project-card w-50">
+                            <div class="card-body text-center">
+                                <h5>Mojo Project (Client: Taylor Farms)</h5>
+                                <small>C2S Technologies</small>
+                                <p>Azure DevOps Engineer</p>
+                                <span class="badge bg-primary">Azure Resources (Container app and App services)</span>
+                                <span class="badge bg-dark">Terraform</span>
+                                <span class="badge bg-info text-dark">GitHub</span>
+                                <span class="badge bg-info text-dark">Docker</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center">
+                        <div class="card project-card w-50">
+                            <div class="card-body text-center">
+                                <h5>Attendance Management System Using Computer Vision</h5>
+                                <small>NextBrain</small>
+                                <p>Software Automation Engineer Intern</p>
+                                <span class="badge bg-success">SQL</span>
+                                <span class="badge bg-warning text-dark">Python</span>
+                                <span class="badge bg-info text-dark">AI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="carousel-control-prev" data-bs-target="#projectCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark rounded-circle"></span>
+            </button>
+
+            <button class="carousel-control-next" data-bs-target="#projectCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
+            </button>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            <a asp-page="/Projects" class="btn btn-outline-dark">View All</a>
+        </div>
+    </section>
+
+
+    <!-- CERTIFICATIONS -->
+    <section class="mb-5 fade-in">
+        <h2>Certifications</h2>
+
+        <ul class="list-group">
+            <li class="list-group-item">Microsoft Azure Fundamentals</li>
+            <li class="list-group-item">Terraform Associate (In Progress)</li>
+            <li class="list-group-item">Azure DevOps Engineer (In Progress)</li>
+        </ul>
+
+        <div class="d-flex justify-content-end mt-3">
+            <a asp-page="/Certifications" class="btn btn-outline-dark">View All</a>
+        </div>
+    </section>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer class="footer-section fade-in mt-5">
+    <div class="container text-center">
+
+        <h3>Let’s Connect</h3>
+
+        <p class="text-muted">
+            Open to DevOps, Cloud, and Automation opportunities.
+        </p>
+
+        <div class="mt-3">
+            <a asp-page="/Contact" class="btn btn-dark me-2">
+                <i class="bi bi-chat-dots"></i> Contact
+            </a>
+
+            <a href="mailto:kumarmarimuthu99@gmail.com" class="btn btn-outline-dark me-2">
+                <i class="bi bi-envelope">GMail</i>
+            </a>
+
+            <a href="https://github.com/Pasupathikumar" target="_blank" class="btn btn-outline-dark me-2">
+    <i class="bi bi-github">GitHub</i>
+</a>
+
+<a href="https://www.linkedin.com/in/pasupathikumar-s-72b8b7208/" target="_blank" class="btn btn-outline-dark">
+    <i class="bi bi-linkedin">LinkedIn</i>
+</a>
+        </div>
+
+        <p class="mt-4 text-muted small">
+            © 2026 Pasupathi Kumar
+        </p>
+
+    </div>
+</footer>
