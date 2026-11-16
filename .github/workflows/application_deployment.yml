@@ -9,6 +9,9 @@ on:
       - closed
     branches:
       - develop
+    paths:
+      - 'Portfolio/**'
+      - '.github/workflows/application_deployment.yml'
 
 permissions:
   contents: write
@@ -17,11 +20,8 @@ permissions:
 
 env:
   ACR_NAME: acrmspkportfoliowus201
-  ACR_LOGIN_SERVER: acrmspkportfoliowus201.azurecr.io
-  ACR_IMAGE_TAG: latest
   CONTAINER_APP_NAME: ca-mspk-portfolio-wus2-01
   RESOURCE_GROUP: rg-terraform-01
-  LOCATION: westus2
 
   DOCKERFILE_PATH: ./Dockerfile
   PROJECT_NAME: mspk-portfolio
@@ -39,3 +39,221 @@ jobs:
 
       - name: Build .NET project Image
         run: docker build -f ${{ env.DOCKERFILE_PATH }} -t ${{ env.PROJECT_NAME }}:build_pr .
+
+  build_image:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop'
+    runs-on: ubuntu-latest
+    environment: Production
+    outputs:
+      new_tag: ${{ steps.output_new_tag.outputs.new_tag }}
+      tag_name: ${{ steps.create_tag.outputs.tag_name }}
+      build_time: ${{ steps.set_build_time.outputs.build_time }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Verify Docker installation
+        run: docker --version
+
+      - name: AZ Login
+        uses: azure/login@v2
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
+      - name: ACR login
+        run: az acr login -n ${{ env.ACR_NAME }}
+
+      - name: Fetch Latest Image Tag Number
+        id: fetch_latest_tag
+        run: |
+          # Try to get the latest tag
+          latest_tag=$(az acr repository show-tags \
+            --name "${{ env.ACR_NAME }}" \
+            --repository "${{ env.PROJECT_NAME }}-dev" \
+            --orderby time_desc \
+            --top 1 \
+            --query "[0]" -o tsv 2>/dev/null || echo "")
+
+          # Check if tag is empty
+          if [[ -z "$latest_tag" ]]; then
+            latest_tag="v0.0.1"
+          fi
+
+          # Validate format (vMAJOR.MINOR.PATCH where each is a number)
+          if [[ ! "$latest_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            latest_tag="v0.0.1"
+          fi
+
+          echo "Using latest_tag=$latest_tag"
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+
+      - name: Update Tag Number
+        shell: bash
+        run: |
+          echo "Old_Tag_Number=${{ env.latest_tag }}" >> $GITHUB_ENV
+          # Set maximum limits
+          MAX_MAJOR=100
+          MAX_MINOR=10
+          MAX_PATCH=10
+
+          version_number=${latest_tag#v}
+
+          # Split into major, minor, patch
+          IFS='.' read -r major minor patch <<< "$version_number"
+
+          # Increment patch
+          patch=$((patch + 1))
+
+          # Check if patch exceeds max
+          if [ $patch -gt $MAX_PATCH ]; then
+            patch=0
+            minor=$((minor + 1))
+          fi
+
+          # Check if minor exceeds max
+          if [ $minor -gt $MAX_MINOR ]; then
+            minor=0
+            major=$((major + 1))
+          fi
+
+          # Check if major exceeds max
+          if [ $major -gt $MAX_MAJOR ]; then
+            echo "Error: MAJOR version exceeds maximum limit of $MAX_MAJOR!"
+            exit 1
+          fi
+
+          # Build new version
+          new_tag="v$major.$minor.$patch"
+          echo "new_tag=$new_tag" >> $GITHUB_ENV
+          echo "Bumped new_tag=$new_tag"
+
+      - name: Build Docker image
+        run: |
+          docker build -f ${{ env.DOCKERFILE_PATH }} -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ env.new_tag }} .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ env.new_tag }}
+
+      - name: Set output new_tag
+        id: output_new_tag
+        run: echo "new_tag=${{ env.new_tag }}" >> $GITHUB_OUTPUT
+
+      - name: Create Release Tag
+        id: create_tag
+        run: |
+          TAG_NAME="dev-v${{ github.run_number }}-$(date +%Y%m%d%H%M%S)"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag $TAG_NAME
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} $TAG_NAME
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Set Build Timestamp
+        id: set_build_time
+        run: echo "build_time=$(TZ=America/Los_Angeles date '+%Y-%m-%dT%H:%M:%S%z')" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.create_tag.outputs.tag_name }}
+          name: Dev Release v${{ github.run_number }} - Portfolio API API
+          body: |
+            Automated release for Portfolio API Container App deployment to Development environment.
+            Tag: ${{ steps.create_tag.outputs.tag_name }}
+            Deployment Status: Pending
+            Build Completed: ${{ steps.set_build_time.outputs.build_time }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy_image:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop'
+    runs-on: ubuntu-latest
+    needs: build_image
+    environment: Production
+    env:
+      DEPLOY_ENV: Production
+    steps:
+      - name: Verify Docker installation
+        run: docker --version
+
+      - name: AZ Login
+        uses: azure/login@v2
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
+      - name: ACR login
+        run: az acr login -n ${{ env.ACR_NAME }}
+
+      - name: Deploy to Azure Container Apps
+        run: |
+          az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ needs.build_image.outputs.new_tag }}
+
+      - name: Set Deployment Timestamp
+        id: set_deploy_time
+        run: echo "deploy_time=$(TZ=America/Los_Angeles date '+%Y-%m-%dT%H:%M:%S%z')" >> $GITHUB_OUTPUT
+
+      - name: Update Release on Success
+        if: success()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.build_dev_image.outputs.tag_name }}
+          body: |
+            Automated release for Portfolio API Container Apps deployment to Development environment.
+            Tag: ${{ needs.build_dev_image.outputs.tag_name }}
+            Deployment Status: Succeeded
+            Image Name: ${{ env.AZURE_CONTAINER_REGISTRY_DEV }}.azurecr.io/${{ env.PROJECT_NAME }}-dev:${{ needs.build_dev_image.outputs.new_tag }}
+            Build Completed: ${{ needs.build_dev_image.outputs.build_time }}
+            Deployed on: ${{ steps.set_deploy_time.outputs.deploy_time }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Release on Failure
+        if: failure()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.build_dev_image.outputs.tag_name }}
+          body: |
+            Automated release for Portfolio API Container Apps deployment to Development environment.
+            Tag: ${{ needs.build_dev_image.outputs.tag_name }}
+            Deployment Status: Failed
+            Build Completed: ${{ needs.build_dev_image.outputs.build_time }}
+            Failed on: ${{ steps.set_deploy_time.outputs.deploy_time }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get Repo Name
+        id: repo_name
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
+          echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
+
+      - name: Notify Teams on Success
+        if: success()
+        uses: jdcargile/ms-teams-notification@v1.4
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: >-
+            Deployment Succeeded |
+            Repo: ${{ steps.repo_name.outputs.repo_name }} |
+            Branch: ${{ github.ref_name }} |
+            Environment: ${{ env.DEPLOY_ENV }}|
+            Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run</a>
+          notification-color: "28a745"
+          timezone: "America/Los_Angeles"
+
+      - name: Notify Teams on Failure
+        if: failure()
+        uses: jdcargile/ms-teams-notification@v1.4
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: >-
+            Deployment Failed |
+            Repo: ${{ steps.repo_name.outputs.repo_name }} |
+            Branch: ${{ github.ref_name }} |
+            Environment: ${{ env.DEPLOY_ENV }} |
+            Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run</a>
+          notification-color: "dc3545"
+          timezone: "America/Los_Angeles"
+
