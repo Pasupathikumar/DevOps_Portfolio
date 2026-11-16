@@ -20,7 +20,7 @@ jobs:
   pk_infra_plan:
     name: Pasupathikumar Portfolio Infra Plan
     runs-on: ubuntu-latest
-    environment: Pasupathikumar
+    environment: Production
     defaults:
       run:
         working-directory: ./Pasupathikumar_Portfolio/Infra_codes
@@ -66,7 +66,7 @@ jobs:
         run: terraform validate
       
       - name: Terraform Plan
-        run: terraform plan -out=plan.out --var-file=config_dev.tfvars -var "sql_server_admin_password=${{ secrets.SQL_SERVER_ADMIN_PASSWORD }}" -var "container_app_image_tag=${{ env.latest_tag_name }}"
+        run: terraform plan -out=plan.out --var-file=config_dev.tfvars -var "email_password=${{ secrets.EMAIL_PASSWORD }}" -var "container_app_image_tag=${{ env.latest_tag_name }}"
 
       - name: Terraform Show Plan
         run: terraform show -no-color plan.out
@@ -85,7 +85,7 @@ jobs:
     name: Pasupathikumar Portfolio Infra Apply
     if: github.ref = = 'refs/heads/develop' && github.event_name == 'push' && needs.pk_infra_plan.results == 'success'
     runs-on: ubuntu-latest
-    environment: Pasupathikumar
+    environment: Production
     needs: pk_infra_plan
     defaults:
       run:

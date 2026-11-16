@@ -1,14 +1,14 @@
 # ---------------- BUILD STAGE ----------------
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /src
 
 # Copy csproj first (better caching)
-COPY Pasupathikumar_Portfolio/PortfolioSite/*.csproj ./PortfolioSite/
+COPY PortfolioSite/*.csproj ./PortfolioSite/
 RUN dotnet restore ./PortfolioSite/PortfolioSite.csproj
 
 # Copy everything else
-COPY Pasupathikumar_Portfolio/PortfolioSite/. ./PortfolioSite/
+COPY PortfolioSite/. ./PortfolioSite/
 
 WORKDIR /src/PortfolioSite
 
@@ -16,7 +16,7 @@ WORKDIR /src/PortfolioSite
 RUN dotnet publish -c Release -o /app/publish
 
 # ---------------- RUNTIME STAGE ----------------
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 WORKDIR /app
 

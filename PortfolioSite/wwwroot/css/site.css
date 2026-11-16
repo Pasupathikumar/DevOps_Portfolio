@@ -1112,6 +1112,19 @@ hr {
     text-align: center;
 }
 
+.certification-track {
+    margin-top: 2rem;
+}
+
+.certification-track .section-heading-row {
+    margin-bottom: 1rem;
+}
+
+.certification-track h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
 .credential-card {
     border-top: 2px solid rgba(68, 217, 194, 0.5) !important;
 }
@@ -1238,6 +1251,11 @@ hr {
     border-radius: 10px;
     color: #72e7d2;
     background: rgba(68, 217, 194, 0.1);
+}
+
+.contact-link-icon i {
+    font-size: 1.05rem;
+    line-height: 1;
 }
 
 .contact-link-card > span:nth-child(2) {

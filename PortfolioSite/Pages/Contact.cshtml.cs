@@ -60,10 +60,9 @@ namespace PortfolioSite.Pages
 
                 StatusMessage = "Message sent successfully!";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 StatusMessage = "Failed to send message. Please try again later.";
-                // Optional: log ex.Message
             }
         }
     }

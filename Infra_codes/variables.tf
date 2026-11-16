@@ -2,15 +2,6 @@ variable "resource_group_name" {
   type        = string
   description = "The name of the resource group."
 }
-variable "sql_server_name" {
-  type        = string
-  description = "The name of the SQL server."
-}
-
-variable "sql_database_name" {
-  type        = string
-  description = "The name of the SQL database."
-}
 
 variable "container_registry_name" {
   type        = string
@@ -39,7 +30,7 @@ variable "location" {
 
 variable "instance_count" {
   type        = string
-  description = "The number of instances for the AKS cluster."
+  description = "A deployment instance identifier used in resource names."
 }
 
 variable "instance_short" {
@@ -52,15 +43,6 @@ variable "location_short" {
   description = "A short identifier for the location."
 }
 
-variable "sql_server_admin_name" {
-  type        = string
-  description = "The administrator login name for the SQL server."
-}
-
-variable "sql_server_admin_password" {
-  type        = string
-  description = "The administrator login password for the SQL server."
-}
 
 variable "storage_account_name" {
   type        = string
@@ -72,15 +54,20 @@ variable "log_analytics_name" {
   description = "The name of the log analytics workspace."
 }
 
-variable "registry_activate" {
-  type        = bool
-  description = "Whether to activate the container registry."
-
-}
-
 variable "container_app_image_tag" {
   type        = string
-  description = "The image tag for the container app. If empty, the latest image from MCR will be used."
+  description = "The immutable image tag to deploy from Azure Container Registry."
+}
+
+variable "email_user" {
+  type        = string
+  description = "Email account used by the contact form."
+}
+
+variable "email_password" {
+  type        = string
+  sensitive   = true
+  description = "SMTP password or app password. Supply through TF_VAR_email_password or a secure pipeline secret."
 }
 
 variable "container_resource_allocation_details" {

@@ -21,23 +21,22 @@ resource "azurerm_container_app" "container_app_o1" {
   revision_mode                = "Single"
   workload_profile_name        = "Consumption"
 
-  dynamic "registry" {
-    for_each = var.registry_activate == true ? [azurerm_container_registry.portfolio_container_registry.name] : []
-    content {
-      server   = "${registry.value}.azurecr.io"
-      identity = "system"
-    }
+  #registry {
+  #  server   = "${azurerm_container_registry.portfolio_container_registry.name}.azurecr.io"
+  #  identity = azurerm_user_assigned_identity.container_app.id
+  #}
+
+  secret {
+    name  = "email-password"
+    value = var.email_password
   }
+
   template {
-    min_replicas = 2
+    min_replicas = 0
     max_replicas = 10
     container {
       name = "mspk-portfolio-container"
-      image = (
-        var.container_app_image_tag == "" ?
-        "mcr.microsoft.com/k8se/quickstart:latest" :
-        "${azurerm_container_registry.portfolio_container_registry.name}.azurecr.io/mspk-portfolio-container:${var.container_app_image_tag}"
-      )
+      image = "${azurerm_container_registry.portfolio_container_registry.name}.azurecr.io/mspk-portfolio-container:${var.container_app_image_tag}"
 
       env {
         name  = "ASPNETCORE_ENVIRONMENT"
@@ -46,7 +45,12 @@ resource "azurerm_container_app" "container_app_o1" {
 
       env {
         name  = "EMAIL_USER"
-        value = "kumarmarimuthu99@mail.com"
+        value = var.email_user
+      }
+
+      env {
+        name        = "EMAIL_PASSWORD"
+        secret_name = "email-password"
       }
 
       cpu    = var.container_resource_allocation_details.cpu
@@ -54,4 +58,33 @@ resource "azurerm_container_app" "container_app_o1" {
     }
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
+  ingress {
+    external_enabled           = true
+    target_port                = 8080
+    allow_insecure_connections = false
+    client_certificate_mode    = "Ignore"
+    transport                  = "auto"
+    traffic_weight {
+      latest_revision = true
+      weight          = 100
+    }
+  }
+
+  depends_on = [azurerm_role_assignment.container_app_role_assignment_acr]
+}
+
+resource "azurerm_role_assignment" "storage_account_role_assignment" {
+  principal_id         = azurerm_user_assigned_identity.container_app.principal_id
+  role_definition_name = "Storage Blob Data Contributor"
+  scope                = azurerm_storage_account.portfolio_storage_account.id
+}
+
+resource "azurerm_role_assignment" "container_app_role_assignment_acr" {
+  principal_id         = azurerm_user_assigned_identity.container_app.principal_id
+  role_definition_name = "AcrPull"
+  scope                = azurerm_container_registry.portfolio_container_registry.id
 }
