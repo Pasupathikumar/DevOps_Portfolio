@@ -83,7 +83,7 @@ jobs:
 
   pk_infra_apply:
     name: Pasupathikumar Portfolio Infra Apply
-    if: github.ref = = 'refs/heads/develop' && github.event_name == 'push' && needs.pk_infra_plan.results == 'success'
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push' && needs.pk_infra_plan.results == 'success'
     runs-on: ubuntu-latest
     environment: Production
     needs: pk_infra_plan
