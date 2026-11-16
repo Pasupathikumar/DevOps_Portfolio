@@ -1,0 +1,77 @@
+@page
+@model PortfolioSite.Pages.CertificationsModel
+@{
+    ViewData["Title"] = "Certifications";
+}
+
+<div class="portfolio-page certifications-page">
+    <header class="page-heading">
+        <p class="page-eyebrow">CREDENTIALS / CONTINUOUS LEARNING</p>
+        <h1>Certifications</h1>
+        <p class="page-intro">
+            Certifications and learning goals across cloud platforms, DevOps practices, and infrastructure automation.
+        </p>
+    </header>
+
+    <div class="row g-4 credential-grid">
+        <div class="col-md-6 col-xl-4">
+            <article class="card credential-card h-100">
+                <div class="card-body">
+                    <div class="credential-card-topline">
+                        <span class="credential-mark">AZ</span>
+                        <span class="credential-status status-complete">Certified</span>
+                    </div>
+                    <p class="credential-provider">MICROSOFT</p>
+                    <h2>Microsoft Azure Fundamentals</h2>
+                    <p>
+                        Demonstrates foundational knowledge of cloud concepts,
+                        Azure services, pricing, and governance.
+                    </p>
+                    <a href="#" target="_blank" class="btn btn-outline-dark btn-sm mt-auto">
+                        Verify Certificate
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card credential-card h-100">
+                <div class="card-body">
+                    <div class="credential-card-topline">
+                        <span class="credential-mark">TF</span>
+                        <span class="credential-status status-progress">In Progress</span>
+                    </div>
+                    <p class="credential-provider">HASHICORP</p>
+                    <h2>Terraform Associate</h2>
+                    <p>
+                        Validates skills in Infrastructure as Code, Terraform workflows,
+                        and cloud provisioning automation.
+                    </p>
+                    <span class="credential-action">Currently learning</span>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card credential-card h-100">
+                <div class="card-body">
+                    <div class="credential-card-topline">
+                        <span class="credential-mark">DO</span>
+                        <span class="credential-status status-progress">In Progress</span>
+                    </div>
+                    <p class="credential-provider">MICROSOFT</p>
+                    <h2>DevOps Engineer</h2>
+                    <p>
+                        Focuses on CI/CD pipelines, automation, monitoring,
+                        and DevOps best practices in Azure.
+                    </p>
+                    <span class="credential-action">Currently learning</span>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <div class="page-end-action">
+        <a asp-page="/Index" class="btn btn-outline-dark">Back to Home</a>
+    </div>
+</div>

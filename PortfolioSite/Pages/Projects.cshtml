@@ -1,0 +1,131 @@
+@page
+@model PortfolioSite.Pages.ProjectsModel
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="portfolio-page projects-page">
+    <header class="page-heading">
+        <p class="page-eyebrow">WORK / SELECTED PROJECTS</p>
+        <h1>Projects &amp; Case Studies</h1>
+        <p class="page-intro">
+            Hands-on work across cloud infrastructure, DevOps automation, and applied AI.
+        </p>
+    </header>
+
+    <div class="project-list">
+        <article class="project-case project-featured">
+            <div class="project-case-topline">
+                <span class="project-number">01</span>
+                <span class="project-kind">FEATURED • CLOUD &amp; DEVOPS</span>
+            </div>
+            <div class="project-case-heading">
+                <div>
+                    <h2>Mojo Platform – Azure DevOps &amp; Infrastructure Automation</h2>
+                    <p class="project-meta">Client: Taylor Farms (C2S Technologies) <span> | </span>2025 – Present</p>
+                </div>
+            </div>
+            <p class="project-summary">
+                Contributing to the Mojo User Interface platform by designing and managing scalable cloud infrastructure, CI/CD pipelines, and monitoring solutions using Azure and modern DevOps practices.
+            </p>
+            <div class="row g-4 project-case-details">
+                <div class="col-lg-7">
+                    <h3 class="project-section-title">Key Contributions</h3>
+                    <ul class="project-contribution-list">
+                        <li>Created reusable Terraform modules</li>
+                        <li>Automated multi-environment deployments</li>
+                        <li>Managed state and environment configurations</li>
+                        <li>Implemented monitoring and alerting solutions</li>
+                        <li>Collaborated with cross-functional teams to optimize infrastructure and deployment processes</li>
+                        <li>Ensured security and compliance best practices in infrastructure design and deployment</li>
+                        <li>Implemented the rollback script to ensure quick recovery from deployment failures</li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <h3 class="project-section-title">Technologies</h3>
+                    <div class="project-tech-list">
+                        <span class="badge">Azure</span>
+                        <span class="badge">Terraform</span>
+                        <span class="badge">GitHub</span>
+                        <span class="badge">Docker</span>
+                        <span class="badge">AKS</span>
+                        <span class="badge">Azure Databricks</span>
+                        <span class="badge">Azure Grafana</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <article class="project-case h-100">
+                    <div class="project-case-topline">
+                        <span class="project-number">02</span>
+                        <span class="project-kind">AI • COMPUTER VISION</span>
+                    </div>
+                    <h2>Attendance Management System – Computer Vision &amp; AI Automation</h2>
+                    <p class="project-meta">Client: NextBrain Technologies (Internal Project) <span> | </span>2023 – 2024</p>
+                    <p class="project-summary">
+                        Developed an AI-powered attendance management system using computer vision
+                        to automate employee tracking and improve accuracy through face recognition
+                        and real-time data processing.
+                    </p>
+                    <h3 class="project-section-title">Key Responsibilities</h3>
+                    <ul class="project-contribution-list">
+                        <li>Developed a face recognition system using ResNetV2 to automate attendance tracking</li>
+                        <li>Implemented real-time face detection, encoding, and comparison workflows</li>
+                        <li>Automated employee dataset collection and streamlined attendance updates</li>
+                        <li>Built AI models for age, gender, and emotion detection to enhance identity verification</li>
+                        <li>Managed backend data storage using Azure SQL for tracking attendance and user data</li>
+                        <li>Integrated APIs for person detection and event logging</li>
+                    </ul>
+                    <h3 class="project-section-title">Technologies</h3>
+                    <div class="project-tech-list">
+                        <span class="badge">Python</span>
+                        <span class="badge">NumPy</span>
+                        <span class="badge">Pandas</span>
+                        <span class="badge">Azure SQL</span>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-lg-6">
+                <article class="project-case h-100">
+                    <div class="project-case-topline">
+                        <span class="project-number">03</span>
+                        <span class="project-kind">ACADEMIC • AI &amp; COMPUTER VISION</span>
+                    </div>
+                    <h2>Natural Disaster Detection System – AI &amp; Computer Vision</h2>
+                    <p class="project-meta">Academic Project <span> | </span>2022 – 2023</p>
+                    <p class="project-summary">
+                        Developed an AI-based system to detect natural disasters such as wildfires,
+                        earthquakes, and tsunamis using computer vision techniques. The system
+                        generates real-time alerts to notify emergency response teams, enabling
+                        faster decision-making and response.
+                    </p>
+                    <h3 class="project-section-title">Key Responsibilities</h3>
+                    <ul class="project-contribution-list">
+                        <li>Developed an AI model using YOLOv7 for detecting natural disasters through image processing techniques</li>
+                        <li>Designed and built the frontend using HTML, CSS, and JavaScript for user interaction and visualization</li>
+                        <li>Implemented backend logic using Python for processing and detection workflows</li>
+                        <li>Integrated frontend and backend using Flask framework</li>
+                        <li>Enabled alert and notification system to inform emergency teams in real-time</li>
+                    </ul>
+                    <h3 class="project-section-title">Technologies</h3>
+                    <div class="project-tech-list">
+                        <span class="badge">Python</span>
+                        <span class="badge">YOLOv7</span>
+                        <span class="badge">Flask</span>
+                        <span class="badge">HTML</span>
+                        <span class="badge">CSS</span>
+                        <span class="badge">JavaScript</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-end-action">
+        <a asp-page="/Index" class="btn btn-outline-dark">Back to Home</a>
+    </div>
+</div>

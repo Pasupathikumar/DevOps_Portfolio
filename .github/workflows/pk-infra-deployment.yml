@@ -1,0 +1,123 @@
+name: PK Portfolio Infra Deployment
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+  
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  TF_CONTAINER_REGISTRY_NAME: pkcrportfoliowus201
+  CONTAINER_NAME: mspk-portfolio-container
+
+jobs:
+  pk_infra_plan:
+    name: Pasupathikumar Portfolio Infra Plan
+    runs-on: ubuntu-latest
+    environment: Pasupathikumar
+    defaults:
+      run:
+        working-directory: ./Pasupathikumar_Portfolio/Infra_codes
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: latest
+      
+      - name: AZ Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR Login
+        run: az acr login -n ${{ env.TF_CONTAINER_REGISTRY_NAME }}
+        continue-on-error: true
+      
+      - name: Fetch Image Tag
+        run: |
+          # Check if ACR repository exists and has images
+          # Returns empty string for initial deployment (uses quickstart image)
+          if az acr repository show --name ${{ env.TF_CONTAINER_REGISTRY_NAME }} --repository ${{ env.CONTAINER_NAME }} &>/dev/null; then
+            latest_tag_name=$(az acr repository show-tags --name ${{ env.TF_CONTAINER_REGISTRY_NAME }} --repository ${{ env.CONTAINER_NAME }} --orderby time_desc --top 1 --query "[0]" -o tsv 2>/dev/null || echo "")
+          else
+            echo "Repository not found or ACR not accessible - using quickstart image for initial deployment"
+            latest_tag_name=""
+          fi
+          echo "latest_tag_name=$latest_tag_name" >> $GITHUB_ENV
+          echo "Image tag to use: '${latest_tag_name:-<empty - quickstart image>}'"
+        continue-on-error: true
+      
+      - name: Terraform Init
+        run: |
+          terraform init --backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}" --backend-config="container_name=${{ secrets.TF_STATE_CONTAINER_NAME }}" --backend-config="access_key=${{ secrets.TF_STATE_ACCESS_KEY }}" --backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP_NAME }}" --backend-config="key=pasupathikumar-portfolio-terraform.tfstate"
+      
+      - name: Terraform validate
+        run: terraform validate
+      
+      - name: Terraform Plan
+        run: terraform plan -out=plan.out --var-file=config_dev.tfvars -var "sql_server_admin_password=${{ secrets.SQL_SERVER_ADMIN_PASSWORD }}" -var "container_app_image_tag=${{ env.latest_tag_name }}"
+
+      - name: Terraform Show Plan
+        run: terraform show -no-color plan.out
+      
+      - name: Compress TF Plan
+        run: zip -r pk_infra_plan.zip ./*
+      
+      - name: Upload TF Plan Artifact
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: pk-infra-plan-artifact
+          path: pk_infra_plan.zip
+          retention-days: 7
+
+  pk_infra_apply:
+    name: Pasupathikumar Portfolio Infra Apply
+    if: github.ref = = 'refs/heads/develop' && github.event_name == 'push' && needs.pk_infra_plan.results == 'success'
+    runs-on: ubuntu-latest
+    environment: Pasupathikumar
+    needs: pk_infra_plan
+    defaults:
+      run:
+        working-directory: ./Pasupathikumar_Portfolio/Infra_codes
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: latest
+      
+      - name: AZ Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+      - name: Download TF Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pk-infra-plan-artifact
+      
+      - name: Unzip TF Plan Artifact
+        run: unzip pk-infra-plan-artifact/pk_infra_plan.zip -d
+      
+      - name: Terraform Init
+        run: |
+          terraform init --backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT_NAME }}" --backend-config="container_name=${{ secrets.TF_STATE_CONTAINER_NAME }}" --backend-config="access_key=${{ secrets.TF_STATE_ACCESS_KEY }}" --backend-config="resource_group_name=${{ secrets.TF_STATE_RESOURCE_GROUP_NAME }}" --backend-config="key=pasupathikumar-portfolio-terraform.tfstate"
+
+      - name: Terraform Apply
+        run: terraform apply plan.tfplan
+      
