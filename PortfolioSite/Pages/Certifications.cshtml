@@ -1,0 +1,143 @@
+@page
+@model PortfolioSite.Pages.CertificationsModel
+@{
+    ViewData["Title"] = "Certifications";
+}
+
+<div class="portfolio-page certifications-page">
+    <header class="page-heading">
+        <p class="page-eyebrow">CREDENTIALS / CONTINUOUS LEARNING</p>
+        <h1>Certifications</h1>
+        <p class="page-intro">
+            Certifications and learning goals across cloud platforms, DevOps practices, and infrastructure automation.
+        </p>
+    </header>
+
+    <div class="row g-4 credential-grid">
+        <div class="col-md-6 col-xl-4">
+            <article class="card credential-card h-100">
+                <div class="card-body">
+                    <div class="credential-card-topline">
+                        <span class="credential-mark">AZ</span>
+                        <span class="credential-status status-complete">Certified</span>
+                    </div>
+                    <p class="credential-provider">MICROSOFT</p>
+                    <h2>Microsoft Azure Fundamentals</h2>
+                    <p>
+                        Demonstrates foundational knowledge of cloud concepts,
+                        Azure services, pricing, and governance.
+                    </p>
+                    <a href="#" target="_blank" class="btn btn-outline-dark btn-sm mt-auto">
+                        Verify Certificate
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card credential-card h-100">
+                <div class="card-body">
+                    <div class="credential-card-topline">
+                        <span class="credential-mark">AZ104</span>
+                        <span class="credential-status status-progress">In Progress</span>
+                    </div>
+                    <p class="credential-provider">MICROSOFT</p>
+                    <h2>Azure Administrator Associate</h2>
+                    <p>
+                        Covers Azure administration across identity, storage, compute, networking,
+                        monitoring, and resource governance.
+                    </p>
+                    <span class="credential-action">Currently learning</span>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card credential-card h-100">
+                <div class="card-body">
+                    <div class="credential-card-topline">
+                        <span class="credential-mark">AZ400</span>
+                        <span class="credential-status status-progress">Future Plan</span>
+                    </div>
+                    <p class="credential-provider">MICROSOFT</p>
+                    <h2>Azure DevOps Engineer Expert</h2>
+                    <p>
+                        Focuses on designing and implementing secure CI/CD pipelines,
+                        source control, automation, testing, and release strategies.
+                    </p>
+                    <span class="credential-action">Future learning goal</span>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <article class="card credential-card h-100">
+                <div class="card-body">
+                    <div class="credential-card-topline">
+                        <span class="credential-mark">AZ305</span>
+                        <span class="credential-status status-progress">Future Plan</span>
+                    </div>
+                    <p class="credential-provider">MICROSOFT</p>
+                    <h2>Azure Solutions Architect Expert</h2>
+                    <p>
+                        Builds expertise in designing secure, scalable, and reliable Azure architectures
+                        across networking, compute, storage, identity, and governance.
+                    </p>
+                    <span class="credential-action">Future learning goal</span>
+                </div>
+            </article>
+        </div>
+
+    </div>
+
+    <section class="certification-track">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-eyebrow">TERRAFORM / INFRASTRUCTURE AS CODE</p>
+                <h2>Terraform Certification Track</h2>
+            </div>
+        </div>
+
+        <div class="row g-4 credential-grid">
+            <div class="col-md-6 col-xl-4">
+                <article class="card credential-card h-100">
+                    <div class="card-body">
+                        <div class="credential-card-topline">
+                            <span class="credential-mark">TF-A</span>
+                            <span class="credential-status status-progress">In Progress</span>
+                        </div>
+                        <p class="credential-provider">HASHICORP</p>
+                        <h2>Terraform Associate</h2>
+                        <p>
+                            Develops practical knowledge of Terraform workflows, infrastructure as code,
+                            providers, modules, state, and cloud provisioning.
+                        </p>
+                        <span class="credential-action">Currently learning</span>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <article class="card credential-card h-100">
+                    <div class="card-body">
+                        <div class="credential-card-topline">
+                            <span class="credential-mark">TF-P</span>
+                            <span class="credential-status status-progress">In Progress</span>
+                        </div>
+                        <p class="credential-provider">HASHICORP</p>
+                        <h2>Terraform Professional</h2>
+                        <p>
+                            Builds advanced expertise in scalable Terraform architecture, module design,
+                            governance, automation, and enterprise infrastructure operations.
+                        </p>
+                        <span class="credential-action">Future learning goal</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-end-action">
+        <a asp-page="/Index" class="btn btn-outline-dark">Back to Home</a>
+    </div>
+</div>

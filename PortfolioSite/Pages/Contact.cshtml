@@ -1,0 +1,111 @@
+@page
+@model PortfolioSite.Pages.ContactModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<div class="portfolio-page contact-page">
+    <header class="page-heading">
+        <p class="page-eyebrow">CONTACT / LET'S CONNECT</p>
+        <h1>Get In Touch</h1>
+        <p class="page-intro">
+            Open to DevOps, Cloud, and Automation opportunities. Feel free to reach out for collaborations or discussions.
+        </p>
+    </header>
+
+    <div class="row g-4 contact-layout">
+        <div class="col-lg-5">
+            <section class="contact-info-panel h-100">
+                <p class="panel-eyebrow">DIRECT CONTACT</p>
+                <h2>Contact Information</h2>
+                <div class="contact-link-list">
+                    <a href="mailto:kumarmarimuthu99@gmail.com" class="contact-link-card">
+                        <span class="contact-link-icon"><i class="bi bi-envelope-fill"></i></span>
+                        <span>
+                            <small>Email</small>
+                            <strong>kumarmarimuthu99@gmail.com</strong>
+                        </span>
+                        <span class="contact-link-arrow" aria-hidden="true">↗</span>
+                    </a>
+                    <a href="https://github.com/Pasupathikumar"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-link-card">
+                        <span class="contact-link-icon"><i class="bi bi-github"></i></span>
+                        <span>
+                            <small>Code &amp; projects</small>
+                            <strong>GitHub Profile</strong>
+                        </span>
+                        <span class="contact-link-arrow" aria-hidden="true">↗</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/pasupathikumar-s-72b8b7208/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="contact-link-card">
+                        <span class="contact-link-icon"><i class="bi bi-linkedin"></i></span>
+                        <span>
+                            <small>Professional network</small>
+                            <strong>LinkedIn Profile</strong>
+                        </span>
+                        <span class="contact-link-arrow" aria-hidden="true">↗</span>
+                    </a>
+                </div>
+
+                <div class="contact-location">
+                    <h3>Location <span>Hyderabad, India</span></h3>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps?q=Hyderabad,India&output=embed"
+                            title="Map showing Hyderabad, India"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-7">
+            <section class="contact-form-panel">
+                <p class="panel-eyebrow">SEND A MESSAGE</p>
+                <h2>Tell me about your opportunity</h2>
+
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               name="name"
+                               placeholder="Enter your name"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email"
+                               class="form-control"
+                               id="email"
+                               name="email"
+                               placeholder="Enter your email"
+                               required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control"
+                                  id="message"
+                                  name="message"
+                                  rows="6"
+                                  placeholder="Write your message..."
+                                  required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100">
+                        <i class="bi bi-send me-1"></i> Send Message
+                    </button>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>

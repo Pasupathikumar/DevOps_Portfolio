@@ -1,0 +1,230 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="portfolio-page home-page">
+    <section class="home-hero">
+        <div class="hero-copy">
+            <p class="page-eyebrow">CLOUD • DEVOPS • SOLUTION ARCHITECTURE • AI</p>
+            <h1>Hi, I'm <span>Pasupathikumar Selvaraj</span></h1>
+            <h2>DevOps Engineer</h2>
+            <p class="hero-summary">
+                DevOps Engineer with 3 years of experience in automating Azure infrastructure, building CI/CD pipelines, and implementing Infrastructure as Code using Terraform and ARM templates. Skilled in Docker, Kubernetes, and cloud-native solutions, with prior experience in AI and automation workflows. Focused on delivering scalable, reliable, and efficient systems.
+            </p>
+
+            <div class="hero-tech-list" aria-label="Core technologies">
+                <span>Azure</span>
+                <span>Terraform</span>
+                <span>CI/CD</span>
+                <span>Docker</span>
+                <span>AKS</span>
+                <span>AI Automation</span>
+            </div>
+
+            <div class="hero-actions">
+                <a asp-page="/Projects" class="btn btn-dark">Explore Projects <span aria-hidden="true">↗</span></a>
+                <a asp-page="/Contact" class="btn btn-outline-dark">Contact</a>
+                <a href="https://tfstterraform01.blob.core.windows.net/portfolio-docs/Pasupathikumar-Resume.pdf"
+                   class="btn btn-outline-dark"
+                   target="_blank"
+                   rel="noopener noreferrer">Resume <span aria-hidden="true">↓</span></a>
+            </div>
+
+            <div class="hero-facts">
+                <div><strong>3 years</strong><span>Experience</span></div>
+                <div><strong>C2S Technologies</strong><span>Current role</span></div>
+                <div><strong>Hyderabad</strong><span>Location</span></div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-orbit orbit-outer"></div>
+            <div class="hero-orbit orbit-inner"></div>
+            <div class="hero-image-frame">
+                <img src="~/images/Photo.jpg" class="profile-image" alt="Pasupathikumar Selvaraj">
+            </div>
+            <div class="architecture-chip chip-cloud"><span>01</span> CLOUD</div>
+            <div class="architecture-chip chip-delivery"><span>02</span> DELIVERY</div>
+            <div class="architecture-chip chip-ai"><span>03</span> AI</div>
+            <div class="hero-visual-caption">DESIGN <span>→</span> AUTOMATE <span>→</span> OPERATE</div>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-eyebrow">CAPABILITIES</p>
+                <h2>Engineering reliable cloud delivery</h2>
+            </div>
+            <a asp-page="/Skills" class="section-link">Explore all skills <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="capability-grid">
+            <article class="capability-card">
+                <span class="capability-index">01 / CLOUD</span>
+                <h3>Azure infrastructure</h3>
+                <p>Cloud resources and environments designed for reliable, scalable delivery.</p>
+                <div class="capability-tags"><span>Azure</span><span>Networking</span><span>Storage</span></div>
+            </article>
+            <article class="capability-card">
+                <span class="capability-index">02 / AUTOMATION</span>
+                <h3>Infrastructure as Code</h3>
+                <p>Repeatable provisioning and configuration through infrastructure automation.</p>
+                <div class="capability-tags"><span>Terraform</span><span>ARM</span><span>Modules</span></div>
+            </article>
+            <article class="capability-card">
+                <span class="capability-index">03 / PLATFORM</span>
+                <h3>Containers &amp; delivery</h3>
+                <p>Container workflows and CI/CD pipelines that support consistent releases.</p>
+                <div class="capability-tags"><span>Docker</span><span>AKS</span><span>CI/CD</span></div>
+            </article>
+            <article class="capability-card">
+                <span class="capability-index">04 / INTELLIGENCE</span>
+                <h3>AI &amp; automation</h3>
+                <p>Prior experience applying AI and automation workflows to practical systems.</p>
+                <div class="capability-tags"><span>Python</span><span>Computer Vision</span><span>AI</span></div>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-eyebrow">CAREER</p>
+                <h2>Professional experience</h2>
+            </div>
+            <a asp-page="/Experience" class="section-link">Full experience <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="home-career-list">
+            <article class="home-career-item">
+                <div class="career-date">2024 — PRESENT</div>
+                <div class="career-marker"></div>
+                <div class="career-content">
+                    <p class="career-company">C2S Technologies <span>•</span> Hyderabad</p>
+                    <h3>Software Engineer - DevOps Engineer</h3>
+                    <ul>
+                        <li>Managed 5+ CI/CD pipelines across multiple environments.</li>
+                        <li>Reduced deployment time by 40% and manual effort by 60%.</li>
+                        <li>Used Docker and Azure Kubernetes Service (AKS) for containerization and orchestration.</li>
+                    </ul>
+                    <div class="project-tech-list">
+                        <span class="badge">Azure</span><span class="badge">Terraform</span><span class="badge">CI/CD</span>
+                        <span class="badge">GitHub</span><span class="badge">Docker</span><span class="badge">AKS</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="home-career-item">
+                <div class="career-date">2023 — 2024</div>
+                <div class="career-marker"></div>
+                <div class="career-content">
+                    <p class="career-company">NextBrain <span>•</span> Bangalore</p>
+                    <h3>Software Automation Engineer Intern</h3>
+                    <ul>
+                        <li>Built face recognition systems using Deep Face and ResNetV2 models.</li>
+                        <li>Implemented AI models in Python with OpenCV for face encoding and comparison.</li>
+                        <li>Designed and maintained project databases using SQL.</li>
+                        <li>Leveraged Azure clusters to optimise model performance and data processing.</li>
+                        <li>Automated AI model updates and streamlined dataset collection workflows.</li>
+                    </ul>
+                    <div class="project-tech-list"><span class="badge">Python</span><span class="badge">AI</span><span class="badge">OpenCV</span></div>
+                </div>
+            </article>
+
+            <article class="home-career-item">
+                <div class="career-date">2023</div>
+                <div class="career-marker"></div>
+                <div class="career-content">
+                    <p class="career-company">Shiash Info Tech <span>•</span> Chennai</p>
+                    <h3>Python Developer Intern</h3>
+                    <ul>
+                        <li>Gained hands-on experience in Python scripting, web technologies, and database queries.</li>
+                        <li>Worked on basic automation scripts and supported frontend and backend development tasks.</li>
+                    </ul>
+                    <div class="project-tech-list"><span class="badge">Python</span><span class="badge">Scripting</span></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-eyebrow">SELECTED WORK</p>
+                <h2>Projects</h2>
+            </div>
+            <a asp-page="/Projects" class="section-link">All projects <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="home-project-grid">
+            <article class="home-project-card featured-project-card">
+                <div class="project-case-topline"><span class="project-number">01</span><span class="project-kind">CLOUD • DEVOPS</span></div>
+                <h3>Mojo UI &amp; Core Compute Platform</h3>
+                <p class="project-meta">Client: Taylor Farms <span>•</span> 2024 – Present</p>
+                <p>Scalable Azure infrastructure, CI/CD pipelines, Terraform automation, and monitoring solutions across multiple platform workstreams.</p>
+                <div class="project-tech-list"><span class="badge">Azure</span><span class="badge">Terraform</span><span class="badge">Docker</span><span class="badge">AKS</span><span class="badge">Azure Grafana</span></div>
+            </article>
+
+            <article class="home-project-card">
+                <div class="project-case-topline"><span class="project-number">02</span><span class="project-kind">CLOUD DATA • SECURITY</span></div>
+                <h3>CP Lake Databricks &amp; Security Automation</h3>
+                <p class="project-meta">Client: Charlies Produce <span>•</span> 2025 – 2026</p>
+                <p>Azure data-platform infrastructure and secure deployment workflows using Terraform, Trivy, Liquibase, and Databricks Asset Bundles.</p>
+                <div class="project-tech-list"><span class="badge">ADLS</span><span class="badge">Databricks</span><span class="badge">Trivy</span><span class="badge">Liquibase</span></div>
+            </article>
+
+            <article class="home-project-card">
+                <div class="project-case-topline"><span class="project-number">03</span><span class="project-kind">CLOUD DELIVERY • AUTOMATION</span></div>
+                <h3>Azure Container Apps &amp; Databricks Automation</h3>
+                <p class="project-meta">Client: Lindsay <span>•</span> 2026 – Present</p>
+                <p>Automated Azure Container Apps and Databricks deployments with validation, rollback, monitoring, and troubleshooting support.</p>
+                <div class="project-tech-list"><span class="badge">Azure</span><span class="badge">Container Apps</span><span class="badge">GitHub Actions</span><span class="badge">Databricks</span></div>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-bottom-grid">
+        <article class="home-section education-panel">
+            <p class="page-eyebrow">EDUCATION</p>
+            <h2>Education</h2>
+            <h3>Bachelor of Technology (B.Tech)</h3>
+            <p class="education-field">Information Technology</p>
+            <p class="education-institution">Muthayammal Engineering College</p>
+            <p>Kakkaveri, Rasipuram, Namakkal, Tamil Nadu</p>
+            <span class="education-date">2020 – 2023</span>
+        </article>
+
+        <article class="home-section certification-panel">
+            <div class="section-heading-row">
+                <div><p class="page-eyebrow">CREDENTIALS</p><h2>Certifications</h2></div>
+                <a asp-page="/Certifications" class="section-link">View all <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="certification-list">
+                <div><span class="certification-status certified"></span><strong>Microsoft Azure Fundamentals</strong><small>Microsoft</small></div>
+                <div><span class="certification-status in-progress"></span><strong>Azure Administrator Associate (AZ-104)</strong><small>In Progress</small></div>
+                <div><span class="certification-status in-progress"></span><strong>Azure DevOps Engineer Expert (AZ-400)</strong><small>Future Plan</small></div>
+                <div><span class="certification-status in-progress"></span><strong>Azure Solutions Architect Expert (AZ-305)</strong><small>Future Plan</small></div>
+                <div><span class="certification-status in-progress"></span><strong>Terraform Associate</strong><small>HashiCorp · In Progress</small></div>
+                <div><span class="certification-status in-progress"></span><strong>Terraform Professional</strong><small>HashiCorp · Future learning goal</small></div>
+            </div>
+        </article>
+    </section>
+
+    <footer class="home-contact-panel">
+        <div>
+            <p class="page-eyebrow">LET'S CONNECT</p>
+            <h2>Building reliable systems, one deployment at a time.</h2>
+            <p>Open to DevOps, Cloud, and Automation opportunities.</p>
+        </div>
+        <div class="home-contact-actions">
+            <a asp-page="/Contact" class="btn btn-dark">Get in touch <span aria-hidden="true">↗</span></a>
+            <a href="mailto:kumarmarimuthu99@gmail.com" class="home-social-link">Email</a>
+            <a href="https://github.com/Pasupathikumar" target="_blank" rel="noopener noreferrer" class="home-social-link">GitHub</a>
+            <a href="https://www.linkedin.com/in/pasupathikumar-s-72b8b7208/" target="_blank" rel="noopener noreferrer" class="home-social-link">LinkedIn</a>
+        </div>
+        <p class="home-copyright">© 2026 Pasupathi Kumar</p>
+    </footer>
+</div>

@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PortfolioSite</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PortfolioSite.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+
+<header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand brand-lockup" asp-page="/Index" aria-label="Pasupathikumar Selvaraj, Home">
+                <span class="brand-mark">PS</span>
+                <span class="brand-copy">
+                    <strong>Pasupathikumar Selvaraj</strong>
+                    <small>DEVOPS ENGINEER</small>
+                </span>
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent"
+                    aria-controls="navbarContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Index" ? "active" : "")"
+                           asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Skills" ? "active" : "")"
+                           asp-page="/Skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Experience" ? "active" : "")"
+                           asp-page="/Experience">Experience</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Projects" ? "active" : "")"
+                           asp-page="/Projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Certifications" ? "active" : "")"
+                           asp-page="/Certifications">Certifications</a>
+                    </li>
+                    <li class="nav-item nav-contact-item">
+                        <a class="nav-link nav-contact-link @(ViewContext.RouteData.Values["page"]?.ToString() == "/Contact" ? "active" : "")"
+                           asp-page="/Contact">Let's connect <span aria-hidden="true">↗</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- PAGE CONTENT WILL RENDER HERE -->
+<main class="page-content">
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+</main>
+
+<button id="scrollTopBtn" type="button" aria-label="Scroll to top">↑</button>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+</body>
+</html>
