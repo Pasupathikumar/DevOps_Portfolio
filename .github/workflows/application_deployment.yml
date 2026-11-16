@@ -10,7 +10,9 @@ on:
     branches:
       - develop
     paths:
-      - 'Portfolio/**'
+      - 'PortfolioSite/**'
+      - 'Dockerfile'
+      - '.dockerignore'
       - '.github/workflows/application_deployment.yml'
 
 permissions:
@@ -139,34 +141,6 @@ jobs:
         id: output_new_tag
         run: echo "new_tag=${{ env.new_tag }}" >> $GITHUB_OUTPUT
 
-      - name: Create Release Tag
-        id: create_tag
-        run: |
-          TAG_NAME="dev-v${{ github.run_number }}-$(date +%Y%m%d%H%M%S)"
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git tag $TAG_NAME
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} $TAG_NAME
-          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
-
-      - name: Set Build Timestamp
-        id: set_build_time
-        run: echo "build_time=$(TZ=America/Los_Angeles date '+%Y-%m-%dT%H:%M:%S%z')" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.create_tag.outputs.tag_name }}
-          name: Dev Release v${{ github.run_number }} - Portfolio API API
-          body: |
-            Automated release for Portfolio API Container App deployment to Development environment.
-            Tag: ${{ steps.create_tag.outputs.tag_name }}
-            Deployment Status: Pending
-            Build Completed: ${{ steps.set_build_time.outputs.build_time }}
-          draft: false
-          prerelease: false
-          token: ${{ secrets.GITHUB_TOKEN }}
-
   deploy_image:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop'
     runs-on: ubuntu-latest
@@ -188,72 +162,52 @@ jobs:
 
       - name: Deploy to Azure Container Apps
         run: |
+          set -euo pipefail
+
+          # The Container App must authenticate to the private ACR when Azure
+          # provisions the new revision. Configure its system identity once
+          # and grant it read-only access to this registry.
+          ACR_ID=$(az acr show \
+            --name "${{ env.ACR_NAME }}" \
+            --query id \
+            --output tsv)
+
+          az containerapp identity assign \
+            --name "${{ env.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP }}" \
+            --system-assigned
+
+          PRINCIPAL_ID=$(az containerapp show \
+            --name "${{ env.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP }}" \
+            --query identity.principalId \
+            --output tsv)
+
+          if ! az role assignment list \
+            --assignee-object-id "$PRINCIPAL_ID" \
+            --scope "$ACR_ID" \
+            --role AcrPull \
+            --query "[?roleDefinitionName=='AcrPull'] | [0].id" \
+            --output tsv | grep -q .; then
+            az role assignment create \
+              --assignee-object-id "$PRINCIPAL_ID" \
+              --assignee-principal-type ServicePrincipal \
+              --role AcrPull \
+              --scope "$ACR_ID"
+          fi
+
+          az containerapp registry set \
+            --name "${{ env.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP }}" \
+            --server "${{ env.ACR_NAME }}.azurecr.io" \
+            --identity system
+
+          # Allow the AcrPull assignment to propagate before revision creation.
+          sleep 30
+
           az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.PROJECT_NAME }}:${{ needs.build_image.outputs.new_tag }}
 
       - name: Set Deployment Timestamp
         id: set_deploy_time
         run: echo "deploy_time=$(TZ=America/Los_Angeles date '+%Y-%m-%dT%H:%M:%S%z')" >> $GITHUB_OUTPUT
-
-      - name: Update Release on Success
-        if: success()
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ needs.build_dev_image.outputs.tag_name }}
-          body: |
-            Automated release for Portfolio API Container Apps deployment to Development environment.
-            Tag: ${{ needs.build_dev_image.outputs.tag_name }}
-            Deployment Status: Succeeded
-            Image Name: ${{ env.AZURE_CONTAINER_REGISTRY_DEV }}.azurecr.io/${{ env.PROJECT_NAME }}-dev:${{ needs.build_dev_image.outputs.new_tag }}
-            Build Completed: ${{ needs.build_dev_image.outputs.build_time }}
-            Deployed on: ${{ steps.set_deploy_time.outputs.deploy_time }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update Release on Failure
-        if: failure()
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ needs.build_dev_image.outputs.tag_name }}
-          body: |
-            Automated release for Portfolio API Container Apps deployment to Development environment.
-            Tag: ${{ needs.build_dev_image.outputs.tag_name }}
-            Deployment Status: Failed
-            Build Completed: ${{ needs.build_dev_image.outputs.build_time }}
-            Failed on: ${{ steps.set_deploy_time.outputs.deploy_time }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get Repo Name
-        id: repo_name
-        run: |
-          REPO_NAME="${GITHUB_REPOSITORY##*/}"
-          echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
-
-      - name: Notify Teams on Success
-        if: success()
-        uses: jdcargile/ms-teams-notification@v1.4
-        with:
-          github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: >-
-            Deployment Succeeded |
-            Repo: ${{ steps.repo_name.outputs.repo_name }} |
-            Branch: ${{ github.ref_name }} |
-            Environment: ${{ env.DEPLOY_ENV }}|
-            Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run</a>
-          notification-color: "28a745"
-          timezone: "America/Los_Angeles"
-
-      - name: Notify Teams on Failure
-        if: failure()
-        uses: jdcargile/ms-teams-notification@v1.4
-        with:
-          github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: >-
-            Deployment Failed |
-            Repo: ${{ steps.repo_name.outputs.repo_name }} |
-            Branch: ${{ github.ref_name }} |
-            Environment: ${{ env.DEPLOY_ENV }} |
-            Workflow: <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run</a>
-          notification-color: "dc3545"
-          timezone: "America/Los_Angeles"
 
