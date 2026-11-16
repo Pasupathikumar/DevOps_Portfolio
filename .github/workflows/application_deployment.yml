@@ -1,0 +1,41 @@
+# contianer registry name: acrmspkportfoliowus201 ca-mspk-portfolio-wus2-01
+
+name: Deploy Portfolio Application to Container App Service
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - closed
+    branches:
+      - develop
+
+permissions:
+  contents: write
+  id-token: write
+  pull-requests: write
+
+env:
+  ACR_NAME: acrmspkportfoliowus201
+  ACR_LOGIN_SERVER: acrmspkportfoliowus201.azurecr.io
+  ACR_IMAGE_TAG: latest
+  CONTAINER_APP_NAME: ca-mspk-portfolio-wus2-01
+  RESOURCE_GROUP: rg-terraform-01
+  LOCATION: westus2
+
+  DOCKERFILE_PATH: ./Dockerfile
+  PROJECT_NAME: mspk-portfolio
+
+jobs:
+  build-pr:
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Verify Docker installation
+        run: docker --version
+
+      - name: Build .NET project Image
+        run: docker build -f ${{ env.DOCKERFILE_PATH }} -t ${{ env.PROJECT_NAME }}:build_pr .
